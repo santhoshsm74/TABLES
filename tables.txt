@@ -1,0 +1,85 @@
+CREATE TABLE user1 (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    email VARCHAR(255) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    username VARCHAR(50) NOT NULL UNIQUE,
+    phone_number VARCHAR(15) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+
+
+
+
+
+
+
+
+
+
+
+
+CREATE DATABASE mail_transfer_db;
+
+USE user_db;
+
+CREATE TABLE usermail(
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    email VARCHAR(255) UNIQUE NOT NULL,
+    password VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE messages (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    sender_email VARCHAR(255) NOT NULL,
+    receiver_email VARCHAR(255) NOT NULL,
+    message TEXT NOT NULL,
+    timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (sender_email) REFERENCES usermail(email),
+    FOREIGN KEY (receiver_email) REFERENCES usermail(email)
+);
+select*from usermail;
+INSERT INTO usermail(email, password) 
+VALUES ('santhosh.s.2025@rkmshome.org', 'San_game7');
+
+
+
+
+
+
+
+
+
+
+
+
+CREATE TABLE transaction_history (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(255) NOT NULL,
+    date DATE NOT NULL,
+    amount DECIMAL(10, 2) NOT NULL,
+    to_user VARCHAR(255) NOT NULL
+);
+
+
+
+
+
+select*from transaction_history;
+ALTER TABLE user1
+ADD COLUMN balance DECIMAL(10, 2) DEFAULT 0.00;
+CREATE TABLE transaction_history (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(255) NOT NULL,
+    transaction_datetime DATETIME NOT NULL,  -- Added column for date and time
+    amount DECIMAL(10, 2) NOT NULL,
+    to_user VARCHAR(255) NOT NULL,
+    FOREIGN KEY (username) REFERENCES user1(username) ON DELETE CASCADE,
+    FOREIGN KEY (to_user) REFERENCES user1(username) ON DELETE CASCADE
+);
+CREATE TABLE balance (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(255) NOT NULL,
+    balance DECIMAL(10, 2) DEFAULT 0.00,  -- Balance with 2 decimal points
+    FOREIGN KEY (username) REFERENCES user1(username) ON DELETE CASCADE
+);
